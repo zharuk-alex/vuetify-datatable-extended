@@ -188,7 +188,7 @@
 <script>
   import Sortable from 'sortablejs';
   import { saveDataFromJS } from '@/helpers/export';
-  import { sortableWatchClass, bodyObserver } from '@/helpers/observers';
+  import { sortableWatchClass } from '@/helpers/observers';
   // Add back the sortHandle class if it gets stripped away by external code
 
   export default {
@@ -340,23 +340,12 @@
     async created() {
       this.localHeaders = this.headers;
     },
-    mounted() {
-      this.tableBodyObserver();
-    },
+
     methods: {
       updateOptionsHandler() {
         this.$nextTick(() => {
-          this.setFixedColumns();
+          this.setFixedColumns('updateOptionsHandler');
         });
-      },
-      async tableBodyObserver() {
-        const target = document.querySelector(`#${this.uniq_ref}`);
-        const isBody = await bodyObserver(target);
-        if (isBody) {
-          this.$nextTick(() => {
-            this.setFixedColumns();
-          });
-        }
       },
 
       setFixedModel(value) {
@@ -366,7 +355,7 @@
           fixed: !this.localHeaders[index]?.fixed,
         });
         this.$nextTick(() => {
-          this.setFixedColumns();
+          this.setFixedColumns('setFixedModel');
         });
       },
       getFilterSelectItems(header) {
@@ -389,7 +378,7 @@
           }));
         }
         this.$nextTick(() => {
-          this.setFixedColumns();
+          this.setFixedColumns('setColumnVisibility');
         });
       },
       exportCSV() {
@@ -402,7 +391,7 @@
         let result = await this.sortTheHeadersAndUpdateTheKey(event);
         if (result.length) {
           this.$nextTick(() => {
-            this.setFixedColumns();
+            this.setFixedColumns('updateTable method');
           });
         }
       },
@@ -448,7 +437,8 @@
           }
         }, 500);
       },
-      setFixedColumns() {
+      setFixedColumns(caller) {
+        console.log(caller);
         let trHead =
           this.$refs[this.uniq_ref]?.$el.querySelectorAll('thead tr')[0];
         if (!trHead || !this.visibleColumns.length) {
@@ -513,6 +503,11 @@
       },
       headers(newVal) {
         this.localHeaders = newVal;
+      },
+      filteredData() {
+        this.$nextTick(() => {
+          this.setFixedColumns('filteredData watch');
+        });
       },
       visibleColumns(newVal, oldVal) {
         if (newVal.length !== oldVal.length) {

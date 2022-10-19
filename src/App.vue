@@ -39,7 +39,12 @@
       tableHeaders: [
         { text: 'id', value: 'id' },
         { text: 'zip', value: 'zip' },
-        { text: 'country', value: 'country', fixed: true },
+        {
+          text: 'country',
+          value: 'country',
+          fixed: true,
+          filterControl: 'select',
+        },
         { text: 'city', value: 'city' },
         { text: 'address', value: 'address' },
         { text: 'name', value: 'name' },
@@ -70,7 +75,10 @@
         };
       },
       async getFakeTableData(count) {
-        return await [...new Array(count)].map(() => this.fakeUser());
+        this.loading = true;
+        let result = await [...new Array(count)].map(() => this.fakeUser());
+        setTimeout(() => (this.loading = false), 1000);
+        return result;
       },
     },
   };

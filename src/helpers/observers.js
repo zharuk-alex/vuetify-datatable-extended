@@ -21,22 +21,5 @@ function sortableWatchClass(targetNode, classToWatch) {
   observer.observe(targetNode, { attributes: true });
 }
 
-function bodyObserver(targetNode) {
-  return new Promise(resolve => {
-    const observer = new MutationObserver(function (mutations) {
-      let isBody = mutations.some(
-        (mutation) => mutation.target.localName == 'tbody'
-      );
 
-      if (isBody) {
-        observer.disconnect();
-        resolve(isBody);
-      }
-
-    });
-
-    observer.observe(targetNode, { childList: true, subtree: true });
-  });
-}
-
-export { sortableWatchClass, bodyObserver };
+export { sortableWatchClass };
