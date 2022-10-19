@@ -344,7 +344,7 @@
     methods: {
       updateOptionsHandler() {
         this.$nextTick(() => {
-          this.setFixedColumns('updateOptionsHandler');
+          this.setFixedColumns();
         });
       },
 
@@ -355,7 +355,7 @@
           fixed: !this.localHeaders[index]?.fixed,
         });
         this.$nextTick(() => {
-          this.setFixedColumns('setFixedModel');
+          this.setFixedColumns();
         });
       },
       getFilterSelectItems(header) {
@@ -378,7 +378,7 @@
           }));
         }
         this.$nextTick(() => {
-          this.setFixedColumns('setColumnVisibility');
+          this.setFixedColumns();
         });
       },
       exportCSV() {
@@ -391,7 +391,7 @@
         let result = await this.sortTheHeadersAndUpdateTheKey(event);
         if (result.length) {
           this.$nextTick(() => {
-            this.setFixedColumns('updateTable method');
+            this.setFixedColumns();
           });
         }
       },
@@ -437,8 +437,7 @@
           }
         }, 500);
       },
-      setFixedColumns(caller) {
-        console.log(caller);
+      setFixedColumns() {
         let trHead =
           this.$refs[this.uniq_ref]?.$el.querySelectorAll('thead tr')[0];
         if (!trHead || !this.visibleColumns.length) {
@@ -506,7 +505,7 @@
       },
       filteredData() {
         this.$nextTick(() => {
-          this.setFixedColumns('filteredData watch');
+          this.setFixedColumns();
         });
       },
       visibleColumns(newVal, oldVal) {

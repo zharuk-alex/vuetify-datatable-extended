@@ -57,7 +57,7 @@
       loading: false,
     }),
     async mounted() {
-      this.tableRows = await this.getFakeTableData(1000);
+      this.fakeAsyncTableData(1000);
       this.timestamp = Date.now();
     },
     methods: {
@@ -74,11 +74,14 @@
           email: faker.internet.email(),
         };
       },
-      async getFakeTableData(count) {
+      async fakeAsyncTableData(count) {
         this.loading = true;
-        let result = await [...new Array(count)].map(() => this.fakeUser());
-        setTimeout(() => (this.loading = false), 1000);
-        return result;
+        setTimeout(async () => {
+          this.tableRows = await [...new Array(count)].map(() =>
+            this.fakeUser()
+          );
+          this.loading = false;
+        }, 1500);
       },
     },
   };
