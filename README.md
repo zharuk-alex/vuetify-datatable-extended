@@ -1,24 +1,11 @@
 # vuetify-datatable-extended
 
-## Project setup
-```
-npm install
-```
+Custom vuetify data-table component:
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+- Filter in each column
+- Columns visibility toggle
+- Draggable columns
+- Fixed columns
+- Export table data to CSV/Excel file
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+[Demo](https://zharuk-alex.github.io/vuetify-datatable-extended/)

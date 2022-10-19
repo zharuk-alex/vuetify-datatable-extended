@@ -99,7 +99,7 @@
       }"
       v-sortable-table="{ onEnd: updateTable }"
       :key="anIncreasingNumber"
-      @update:items-per-page="itemsPerPageChangeEvent"
+      @update:options="updateOptionsHandler"
     >
       <template
         v-for="(header, i) in tableColumns"
@@ -344,12 +344,11 @@
       this.tableBodyObserver();
     },
     methods: {
-      itemsPerPageChangeEvent() {
+      updateOptionsHandler() {
         this.$nextTick(() => {
           this.setFixedColumns();
         });
       },
-
       async tableBodyObserver() {
         const target = document.querySelector(`#${this.uniq_ref}`);
         const isBody = await bodyObserver(target);
@@ -367,7 +366,7 @@
           fixed: !this.localHeaders[index]?.fixed,
         });
         this.$nextTick(() => {
-          this.setFixedColumns('setFixedModel');
+          this.setFixedColumns();
         });
       },
       getFilterSelectItems(header) {
@@ -390,7 +389,7 @@
           }));
         }
         this.$nextTick(() => {
-          this.setFixedColumns('setColumnVisibility');
+          this.setFixedColumns();
         });
       },
       exportCSV() {
@@ -402,7 +401,9 @@
       async updateTable(event) {
         let result = await this.sortTheHeadersAndUpdateTheKey(event);
         if (result.length) {
-          this.setFixedColumns('updateTable');
+          this.$nextTick(() => {
+            this.setFixedColumns();
+          });
         }
       },
       async sortTheHeadersAndUpdateTheKey(event) {
